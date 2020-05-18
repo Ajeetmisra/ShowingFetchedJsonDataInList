@@ -1,4 +1,4 @@
-package com.example.testinglistview;
+package com.example.fetchingJSONdatausingVIEWMODEL;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -6,9 +6,6 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,8 +21,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-
-import cz.msebera.android.httpclient.Header;
 
 public class MyViewModel extends ViewModel {
     public ArrayList<States> stateinfo = new ArrayList<States>();
@@ -47,7 +42,7 @@ public class MyViewModel extends ViewModel {
 //             aynsta();
             StatesAsyncTask task = new StatesAsyncTask();
             task.execute("https://api.rootnet.in/covid19-in/stats/latest");
-
+            Log.i("ajeet", "getStates: function is called");
         }
 
 //         mStates.postValue(stateinfo); // yaha pr galti kr rahe the response aane k baad data add krna tha ( onpostexecute wale method m kiye h)

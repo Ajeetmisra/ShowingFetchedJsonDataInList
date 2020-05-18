@@ -1,4 +1,4 @@
-package com.example.testinglistview;
+package com.example.fetchingJSONdatausingVIEWMODEL;
 
 public class States {
     private String loc;

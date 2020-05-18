@@ -1,41 +1,23 @@
-package com.example.testinglistview;
+package com.example.fetchingJSONdatausingVIEWMODEL;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.AsyncTaskLoader;
-import androidx.loader.content.Loader;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-
-import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getName();
@@ -45,14 +27,60 @@ public class MainActivity extends AppCompatActivity {
     private MyViewModel myViewModel;
     ArrayList<States> info;
     ArrayList<States> info2;
+    RecyclerView recyclerView;
+    public void refresh(){
+        myViewModel.getStates().observe(this, new Observer<List<States>>() {
+            @Override
+            public void onChanged(List<States> states) {
+                // update UI
+                dataAdapter = new DataAdapter((ArrayList<States>) states);
 
+//                info.clear();
+                recyclerView.setAdapter(dataAdapter);
+//                info.addAll(states);
+                ;
+//                dataAdapter.addAll(states);
+//                dataAdapter.notifyDataSetChanged();
+
+
+            }
+        });
+        Log.i("ajeetm", "refresh: function is called");
+    }
+
+
+
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater menuInflater = getMenuInflater();
+//        menuInflater.inflate(R.menu.mymenu,menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//         super.onOptionsItemSelected(item);
+//         switch (item.getItemId())
+//         {
+//             case  R.id.refresh:
+//                 refresh();
+//                 return true;
+//             default:
+//                 return false;
+//
+//         }
+//
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("ajeet", "onCreate: called");
-        lv = (ListView) findViewById(R.id.listview);
+        recyclerView = (RecyclerView) findViewById(R.id.RecycleView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 //        Repository repo = new Repository();
 //        repo.asyn();
 //        info = new ArrayList<States>();
@@ -69,10 +97,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<States> states) {
                 // update UI
-                dataAdapter = new DataAdapter(MainActivity.this, (ArrayList<States>) states);
+                dataAdapter = new DataAdapter((ArrayList<States>) states);
 
 //                info.clear();
-                lv.setAdapter(dataAdapter);
+                recyclerView.setAdapter(dataAdapter);
 //                info.addAll(states);
                 ;
 //                dataAdapter.addAll(states);

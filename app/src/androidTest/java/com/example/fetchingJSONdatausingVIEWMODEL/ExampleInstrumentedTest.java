@@ -1,4 +1,4 @@
-package com.example.testinglistview;
+package com.example.fetchingJSONdatausingVIEWMODEL;
 
 import android.content.Context;
 
